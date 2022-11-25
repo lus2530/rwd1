@@ -1,110 +1,196 @@
 <!DOCTYPE html>
-<html lang="ko" dir="ltr">
-  <head>
-    <meta charset="utf-8">
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>반응형</title>
-    <meta name="viewport" content="width=device-width">
     <style>
         /* 초기화 */
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
         body, h1, h2, ul {
             margin: 0; padding: 0;
         }
-        ul li {
-            list-style: none;
+        li {
+            list-style: none; 
         }
-        a { 
-            text-decoration: none; 
-            color: black;
+        a {
+            text-decoration: none;
         }
-        
+        address {
+            font-style: normal;
+        }
+        .hidden {
+            overflow: hidden;
+            position: absolute;
+            width: 1px; height: 1px;
+            margin:-1px;
+            clip-path: polygon(0 0, 0 0, 0 0);
+        }
         /* 헤더 */
-        header {
+        #header {
             height: 100px;
-            background: #91ffde;
+            background: #cbf09d;
+            border-bottom: 2px solid #5a5a5a;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
         }
-        header h1 {
-            margin-left: 50px;
+        #header h1 {
+            position: absolute; top: 13px; left: 100px;
         }
-        header nav {}
-        header nav ul {
+        #header h1 a {
+            color: #000; font-size: 50px;
+        }
+        /* memvership */
+        #member {
+            position: absolute; top: 37px; right: 50px;
+        }
+        #member ul {
             display: flex;
         }
-        header nav ul li {
-            margin: 0 20px;
+        #member ul li {
+            margin-left: 20px;
         }
-        header nav ul li a {
-            font-size: 20px;
+        #member ul li a {
+            color: #585858;
+            font-weight: bold;
+            font-size: 12px;
         }
-        
+        /* gnb 메뉴보기 버튼 */
+        .viewGnb {
+            display: none;
+            position: absolute; top: 25px; left: 50px;
+            width: 50px; height: 50px;
+            border: 1px solid #000;
+        }
+        .viewGnb::before {
+            content: "";
+            position: absolute; top: 16px; left: 10px;
+            width: 28px; 
+            border-bottom: 1px solid #000;
+            transition: 0.2s;
+        }
+        .viewGnb::after {
+            content: "";
+            position: absolute; top: 32px; left: 10px;
+            width: 28px; 
+            border-bottom: 1px solid #000;
+            transition: 0.2s;
+        }
+        .viewGnb:hover::before { transform: translateY(7.5px) rotate(45deg); }
+        .viewGnb:hover::after { transform: translateY(-7.5px)  rotate(-45deg); }
+
+        /* gnb */
+        #gnb ul {
+            display: flex;
+        }
+        #gnb ul li {
+            margin: 0 15px;
+        }
+        #gnb ul li a {
+            color: #1f1f1f;
+            font-size: 18px;
+        }
+
         /* 메인 */
         main {
-            padding: 50px;
-            background: #6395e9;
+            width: 1200px; margin: 30px auto;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
         }
         section {
-            width: 100%;
-            height: 400px;
-            border: 1px solid white;
-            /* height:20.8vw; */
+            border: 1px solid #000; background:  #99e6c9;
+            width: 100%; height: 400px;
         }
         section:not(:last-child) {
-            margin-right: 50px;
+        /* 클래스를 지정해주는게 더 좋음 */
+            margin-right: 2%;
         }
+
         /* 푸터 */
         footer {
-            height: 150px;
-            background: #2bffbf;
-            font-size: 30px;
+            padding: 50px 0; 
+            background: #000; color: #fff; 
+            text-align: center;
         }
-        
-        /* screen size 800 이하 */
-        @media screen and ( max-width: 800px ) {
+
+        /* 1200px 이하 */
+        @media screen and (max-width: 1200px) {
             main {
-                flex-wrap: wrap;
+                width: 90%;
             }
-            section {
-                /* width: 50vh; */
+        }
+        /* 1000px 이하 */
+        @media screen and (max-width: 1000px) {
+            #header h1 { left: 50%; transform: translateX(-50%); }
+            #member { right: 20px; }
+            .viewGnb { display: block; }
+            #gnb {
+                position: fixed; top: 0; left: -200px;
+                width: 200px; height: 100vh;
+                background: #58a797;
+                transition: 0.5s;
             }
-            /* 위에 section부분의 선택자를 main section으로 해줬다면 여기도 부모까지 상세하게 적어줘야함 */
-            section:not(:last-child) {
-            margin-right: 0;
-            margin-bottom: 50px;
-            }
-            
+            #gnb ul { flex-direction: column; margin-top: 50px; }
+            #gnb ul li { text-align: center; line-height: 100px; }
+            #gnb ul li a { color: #fff; }
+
+            main { flex-flow: wrap; }
+            section { width: 49%; }
+            section:not(:last-child) { margin-right: 0; }
+            section:nth-child(odd) { margin-right : 2%; }
+            section:nth-child(1),section:nth-child(2) { margin-bottom: 2%; }
+            /* .viewGnb:active + #gnb { left: 0; } */
+            /* 적용되는지 여부만 확인, 스크립트로 적용해야함 */
+        }
+        /* 600px 이하 */
+        @media screen and ( max-width: 600px ) {
+            section { width: 100%;  margin: 0; }
+            section:nth-child(odd) { margin: 0; }
+            section:nth-child(1),section:nth-child(2) { margin-bottom: 0; }
+            section:not(:last-child) { margin-bottom: 3%; }
         }
     </style>
-  </head>
-  <body>
-    <header>
-      <h1>로고</h1>
-      <nav>
-        <ul>
-          <li><a href="#">메뉴1</a></li>
-          <li><a href="#">메뉴2</a></li>
-          <li><a href="#">메뉴3</a></li>
-          <li><a href="#">메뉴4</a></li>
-        </ul>
-      </nav>
+</head>
+<body>
+    <header id="header">
+        <h1><a href="#">로고</a></h1>
+        <nav id="member">
+            <h2 class="hidden">멤버십 관련</h2>
+            <ul>
+                <li><a href="#">로그인</a></li>
+                <li><a href="#">회원가입</a></li>
+            </ul>
+        </nav>
+        <a href="#" class="viewGnb"><span class="hidden">Gnb 보기</span></a>
+        <nav id="gnb">
+            <h2 class="hidden">주요 메뉴</h2>
+            <ul>
+                <li><a href="#">리스트1</a></li>
+                <li><a href="#">리스트2</a></li>
+                <li><a href="#">리스트3</a></li>
+                <li><a href="#">리스트4</a></li>
+            </ul>
+        </nav>
     </header>
     <main>
-      <section>
-        <h2>1</h2>
-      </section>
-      <section>
-        <h2>2</h2>
-      </section>
-      <section>
-        <h2>3</h2>
-      </section>
+        <section><h2>컨텐츠1</h2></section>
+        <section><h2>컨텐츠2</h2></section>
+        <section><h2>컨텐츠3</h2></section>
+        <section><h2>컨텐츠4</h2></section>
     </main>
-    <footer>footer</footer>
-  </body>
+    <footer>
+        <address>푸터</address>
+    </footer>
+    <script>
+        const gnbBtn = document.querySelector('.viewGnb');
+        const gnb = document.getElementById("gnb")
+        gnbBtn.addEventListener("click", ()=>{
+            gnb.style.left = "0px";
+        })
+        gnb.addEventListener('mouseleave', ()=>{
+            gnb.style.left = "-200px";
+        })
+    </script>
+</body>
 </html>
